@@ -11,12 +11,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        
+ 
+        <title>Todo List | LARAVEL</title>      
     </head>
     <body>
-        <!-- Fazer a parada do blade aqui nesse lugar -->
+        <div class="alert alert-warning" style="display: none;">
+          <strong>Warning!</strong> Indicates a warning that might need attention.
+        </div>
+        <div class="alert alert-success" style="display: none;">
+          <strong>Warning!</strong> Indicates a warning that might need attention.
+        </div>
+        <div class="container">
+            <div class="header clearfix">
+                <h3 class="text-muted">Todo List</h3>
+                <hr>
+            </div>
+            @yield('lista')
+        </div>
+        <script src="/js/activities.js"></script> 
     </body>
 </html>

@@ -11,18 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',['uses'=>'ActivitiesController@index']);
 
-Route::post('/add',function(){
-	
-});
-
-Route::post('/edit',function(){
-	
-});
-
-Route::post('/delete',function(){
-	
-});
+// Rotas para as chamadas de ajax
+Route::post('/activities/add',['uses'=>'ActivitiesController@add']);
+Route::post('/activities/edit',['uses'=>'ActivitiesController@edit']);
+Route::post('/activities/delete',['uses'=>'ActivitiesController@delete']);
+Route::post('/activities/done',['uses'=>'ActivitiesController@done']);
