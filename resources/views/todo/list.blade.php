@@ -4,7 +4,6 @@
 	 <div class="table-responsive">
         <div id="list">
             <div class="col-md-6">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="text" id="addActivity" class="form-control" placeholder="O precisa ser feito?">
             </div>
             <div class="col-md-2">
@@ -19,16 +18,23 @@
                     </tr>
                 </thead>
                 <tbody id="concat">
-                    @foreach ($activities as $user)
-                        <tr>
+                    @foreach ($activities as $activity)
+                        <tr id="tr-{{ $activity->id }}">
                             <td style="text-align: center;">
-                                <input id="{{$user}}" class="doActivity" type="checkbox">
+                                <input id="{{ $activity->id }}" class="doActivity" type="checkbox" {{ $activity->concluido ? 'checked="checked"' : "" }} >
                             </td>
-                            <td> 
-                                {{ $user }}
+                            <td >
+                                <span id="span-{{ $activity->id }}" class="spans">
+                                {{ $activity->nome }}   
+                                </span>
+                                
+                                <div class="div-input" id="text-span-{{ $activity->id }}" style="display: none;">
+                                    <input id="text-{{ $activity->id }}" class="input-name" type="text" value="{{ $activity->nome }}">
+                                    <button class="btn btn-lg btn-primary btn-sm change" >Salvar</button>
+                                </div>
                             </td>
                             <td>
-                                <button id="{{$user}}" class="btn btn-lg btn-danger btn-sm rmActivity">Remover</button>
+                                <button id="{{ $activity->id }}" class="btn btn-lg btn-danger btn-sm rmActivity" >Remover</button>
                             </td>
                         </tr>
                     @endforeach

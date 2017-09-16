@@ -15,13 +15,11 @@
         <title>Todo List | LARAVEL</title>      
     </head>
     <body>
-        <div class="alert alert-warning" style="display: none;">
-          <strong>Warning!</strong> Indicates a warning that might need attention.
-        </div>
-        <div class="alert alert-success" style="display: none;">
-          <strong>Warning!</strong> Indicates a warning that might need attention.
-        </div>
         <div class="container">
+            <div class="row">
+                <div class="alert alert-success" style="display: none;"></div>
+                <div class="alert alert-danger" style="display: none;"></div>
+            </div>
             <div class="header clearfix">
                 <h3 class="text-muted">Todo List</h3>
                 <hr>

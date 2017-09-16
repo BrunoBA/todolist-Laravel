@@ -8,26 +8,32 @@
 			'/activities/add',
 			{nome:name},
 			function(resposta){	
-				
-				if(resposta != ''){
-					$("#concat").append(resposta);
+
+				if(resposta.status == "success"){
+
+					$("#concat").append(resposta.message);
 					
 					var total = $("#total").text();
 					var total = $("#total").text(parseInt(++total));
 				}
-				
+				else{
+					alertMessage(resposta.status,resposta.message);
+				}
+
 				$("#addActivity").val('');
 				$("#addActivity").focus();
 
-			},"html"
+			},"json"
 		);
 	});
 
 	// MÉTODO RESPONSÁVEL POR REMOVER ATIVIDADES
 	$(document).on('click', '.rmActivity',function()
 	{	
+
 		fechar_inputs();		
 		var id = $(this).attr('id');
+
 		if(confirm("Tem certeza que deseja excluir esta atividade?")){
 			$.post(
 				'/activities/delete',
