@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody id="concat">
-                    @foreach ($activities as $activity)
+                    @foreach ($data['activities'] as $activity)
                         <tr id="tr-{{ $activity->id }}">
                             <td style="text-align: center;">
                                 <input id="{{ $activity->id }}" class="doActivity" type="checkbox" {{ $activity->concluido ? 'checked="checked"' : "" }} >
@@ -43,7 +43,7 @@
                     <tr> 
                         <td colspan="3">
                         <h4>Progresso:
-                        <span id="concluded">0</span>/<span id="total">0</span>
+                        <span id="concluded">{{ $data['done'] }}</span>/<span id="total">{{ $data['quantity'] }}</span>
                         </h4>
                         </td>
                     </tr>

@@ -12,17 +12,17 @@ class ActivitiesController extends Controller
 
     public function index()
     {
- 
-        $activities = DB::table('activities')
-        ->where('excluido', '=', FALSE)
-        ->orderBy('id','asc')->get();
-    	return view('todo.list',compact('activities'));
+
+        $data['quantity'] = \App\Activity::getAll(FALSE);
+        $data['done'] = \App\Activity::getCompleted(FALSE);    
+        $data['activities'] = \App\Activity::getAll();
+
+    	return view('todo.list',compact('data'));
     }
 
     public function add(Request $request)
     {
 
-        // SALVAR DADOS NO BANCO DE DADOS
         $validator = Validator::make($request->all(), [
             'nome' => 'required'
         ]);
@@ -67,7 +67,7 @@ class ActivitiesController extends Controller
             return response()->json(['message'=>"Atividade alterada com sucesso!", 'status'=>"success"]);
 
         }catch(\Illuminate\Database\QueryException $ex){ 
-          return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
+            return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
         }
        
     }
@@ -76,14 +76,19 @@ class ActivitiesController extends Controller
     {
         try{
 
+            $activity = \App\Activity::get($request->input('id'));
+
+            if($activity->concluido)
+                return response()->json(['message'=>'Não é possível deletar uma atividade concluída', 'status'=>'error']);
+           
             DB::table('activities')
             ->where('id', $request->input('id'))
             ->update(['excluido' => TRUE]);
 
-            return response()->json(['message'=>"Atividade excluída com sucesso!", 'status'=>"success"]);
+            return response()->json(['message'=>"Atividade excluída com sucesso!", 'status'=>"success", "concluido"=>$activity->concluido]);
 
         }catch(\Illuminate\Database\QueryException $ex){ 
-          return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
+            return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
         }
     }
 
@@ -91,18 +96,16 @@ class ActivitiesController extends Controller
     {
         try{
 
-            $activity = DB::table('activities')
-                            ->where('id',$request->input('id'))
-                            ->get();
+            $activity = \App\Activity::get($request->input('id'));
                       
             DB::table('activities')
             ->where('id', $request->input('id'))
-            ->update(['concluido' => !$activity[0]->concluido]);
+            ->update(['concluido' => !$activity->concluido]);
 
-            return response()->json(['message'=>"Atividade alterada com sucesso!", 'status'=>"success"]);
+            return response()->json(['message'=>"Atividade alterada com sucesso!", 'status'=>"success", "type"=> !$activity->concluido]);
 
         }catch(\Illuminate\Database\QueryException $ex){ 
-          return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
+            return response()->json(['message'=>$ex->getMessage(), 'status'=>"error"]);
         }
     }
 
